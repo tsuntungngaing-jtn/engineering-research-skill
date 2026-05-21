@@ -15,9 +15,11 @@ The agent must never claim convergence, validation, or publication readiness wit
 ```
 Reference Paper
   → Extract geometry & physics (paper-analysis)
+  → Equation & coordinate audit (simulation-equation-audit) — ongoing
   → AI-assisted CAD / COMSOL geometry (geometry-reconstruction)
   → COMSOL simulation setup & solve
   → Debug (comsol-debug)
+  → Re-audit after solve (simulation-equation-audit)
   → Physics validation (validation)
   → Scientific figures (scientific-figure)
   → Final delivery (delivery)
@@ -68,6 +70,7 @@ For COMSOL/microfluidic simulation tasks, follow engineering-research-skill/work
 | `paper-analysis` | New reference paper, parameter extraction, BC/material audit |
 | `geometry-reconstruction` | CAD/COMSOL geometry from paper dimensions |
 | `comsol-debug` | Solver failure, green velocity fields, mesh warnings |
+| `simulation-equation-audit` | Equation/coordinate/unit audit, math↔software mapping, A/B/C/D output reliability (any toolchain) |
 | `validation` | Physics sanity, Re/Pe checks, comparison to paper |
 | `scientific-figure` | Nature/IEEE-style multi-panel figures |
 | `delivery` | Final package, VERIFIED_USE_THESE archive |
@@ -76,6 +79,7 @@ For COMSOL/microfluidic simulation tasks, follow engineering-research-skill/work
 
 Before any COMSOL study run, the agent must complete:
 
+0. **Equation audit** — `model_equation_audit.md` with research question, equations, coordinates, and math↔software mapping (`simulation-equation-audit`)
 1. **Units** — mm vs m consistency (STEP import scale is a common failure mode)
 2. **Domain assignment** — fluid vs solid explicitly separated
 3. **Boundary conditions** — traceable to paper section/table
@@ -88,6 +92,7 @@ Before any COMSOL study run, the agent must complete:
 - Presenting full-green velocity fields without diagnosing domain selection
 - Reporting temperatures below inlet or above physically plausible limits without explanation
 - Skipping uncertainty and assumption disclosure in deliverables
+- Marking outputs **A** (quantitative) without `model_equation_audit.md` and reliability grades
 
 ## Toolchain
 
