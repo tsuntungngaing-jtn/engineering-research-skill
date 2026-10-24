@@ -18,16 +18,21 @@ No ML Transformer is trained. Stages mirror Encoder → Decision → Decoder:
 
 ```
 Input
+  → Session boot: session-boot → SESSION_CONFIG
   → Encoder: deep-search → EVIDENCE_LEDGER (literature + official docs)
   → Decision: decision-gate → OPTION_CARD / user choice / accountable self-iterate
   → Decoder · Replicate: paper-analysis → geometry → solve → validation → REPLICATE_SCORECARD
+      (+ compare closed loop C0→C2; see compare-closed-loop-checklist)
   → Decoder · Optimize: parameter-optimize (numeric and/or pixel compare)
   → Prose gate: academic-prose-gate (fused academic-scrub)
   → Delivery: VERIFIED_USE_THESE (REPLICATE_* vs OPTIMIZED_*)
 ```
 
 Full map: [`workflows/transformer-pipeline.md`](workflows/transformer-pipeline.md).  
-Legacy detailed CAD/solve map: [`workflows/paper-to-simulation.md`](workflows/paper-to-simulation.md).
+Session boot: [`workflows/session-boot.md`](workflows/session-boot.md).  
+Legacy detailed CAD/solve map: [`workflows/paper-to-simulation.md`](workflows/paper-to-simulation.md).  
+Versioning (GitHub vs Obsidian): [`docs/versioning-obsidian.md`](docs/versioning-obsidian.md).  
+Course pointer (MFE209TC): [`courseware/MFE209TC/README.md`](courseware/MFE209TC/README.md).
 
 ## Language / journal prose
 
@@ -62,6 +67,8 @@ Details: [`workflows/project-storage.md`](workflows/project-storage.md). Include
 | `prompts/` | Reusable prompt templates for agent sessions |
 | `templates/` | Reports, logs, ledgers, session/compare storage seeds |
 | `scripts/` | `init-project-storage` helpers |
+| `docs/` | Design specs + Obsidian versioning notes |
+| `courseware/` | Course pointers only (no large binaries) |
 
 ## Installation (Cursor)
 
@@ -91,6 +98,7 @@ For COMSOL/microfluidic simulation tasks, follow engineering-research-skill/work
 
 | Skill | Stage | Trigger |
 |-------|-------|---------|
+| `session-boot` | Boot | New chat/project; write `SESSION_CONFIG` before Encoder |
 | `deep-search` | Encoder | Start project; build accountable evidence ledger |
 | `decision-gate` | Decision | Option cards; user select / refuse → self-iterate |
 | `paper-analysis` | Decoder · Replicate | Consolidate ledger → `PAPER_SPEC.md` |
@@ -107,7 +115,8 @@ For COMSOL/microfluidic simulation tasks, follow engineering-research-skill/work
 
 Before any COMSOL study run, the agent must complete:
 
-0. **Evidence + decision** — ledger ready; decision logged (or written waiver)
+0. **Session boot** — `session/SESSION_CONFIG.md` (`session-boot` / `session-boot-checklist.md`)
+0a. **Evidence + decision** — ledger ready; decision logged (or written waiver)
 0b. **Equation audit** — `model_equation_audit.md` (`simulation-equation-audit`)
 1. **Units** — mm vs m consistency (STEP import scale is a common failure mode)
 2. **Domain assignment** — fluid vs solid explicitly separated

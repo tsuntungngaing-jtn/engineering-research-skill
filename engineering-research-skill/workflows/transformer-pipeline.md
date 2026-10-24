@@ -14,6 +14,7 @@ STORAGE INIT (once per PROJECT_ID)
         |
         v
 INPUT + SESSION BOOT (config in session/SESSION_CONFIG.md)
+  Skill: `session-boot` · checklist: `session-boot-checklist.md` · map: `workflows/session-boot.md`
   Paper / DOI / research question + optional COMSOL version
         |
         v
@@ -31,7 +32,7 @@ DECISION — decision-gate
 DECODER · REPLICATE
   paper-analysis → geometry-reconstruction → solve / comsol-debug
   → simulation-equation-audit → validation
-  → compare/COMPARE_LOG.md (C0–C4 as enabled)
+  → compare/COMPARE_LOG.md (C0–C4 as enabled; `compare-closed-loop-checklist.md`)
   → replicate/REPLICATE_SCORECARD.md
   Optional prose scrub on validation narrative
         |
@@ -71,10 +72,11 @@ Use `paper-to-simulation.md` alone only when ledger/decision already exist or us
 
 1. Replicate before optimize (`replicate-before-optimize-checklist.md`).
 2. Self-iterate uses ledger only; no invented numbers.
-3. Pixel comparisons stay `digitized_estimate`.
+3. Pixel comparisons stay `digitized_estimate`; C4 alone cannot yield EXACT `VALIDATED` (`compare-closed-loop-checklist.md`).
 4. Refuse ≠ “pick the prettiest figure match”.
 5. Prose close-out requires academic-scrub via `academic-prose-gate` (`academic-prose-checklist.md`).
 6. Project storage stays outside the skill git repo; init with `scripts/init-project-storage.*`.
+7. Obsidian snapshots are readable cabinets only; GitHub remains authoritative (`docs/versioning-obsidian.md`).
 
 ## Minimal dry-run (fictional)
 

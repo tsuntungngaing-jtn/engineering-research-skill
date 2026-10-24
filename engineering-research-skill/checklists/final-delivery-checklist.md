@@ -17,6 +17,7 @@
 - [ ] `optimize/OPTIMIZE_RUN_LOG.md` if any `OPTIMIZED_` file shipped
 - [ ] `prose_scrub/SCRUB_LOG.md` if narrative README/reports shipped (`academic-prose-gate` + `academic-prose-checklist.md`)
 - [ ] Storage layout matches `templates/PROJECT_LAYOUT.md` / `workflows/project-storage.md`
+- [ ] Coursework extras (if MFE209TC-like): mesh CSV cited; Pareto/preference-lock labeled **decision** not paper EXACT (`courseware/MFE209TC/README.md`)
 - [ ] Superseded mph files listed with reason
 - [ ] Primary files explicitly named ("use these first"); `REPLICATE_` vs `OPTIMIZED_` distinguished
 
@@ -43,12 +44,14 @@
 
 ## Checklists Completed
 
+- [ ] `session-boot-checklist.md` (or written boot waiver)
 - [ ] `deep-search-checklist.md` (or Phase-0 waiver)
 - [ ] `geometry-checklist.md`
 - [ ] `physics-checklist.md`
 - [ ] `mesh-checklist.md`
 - [ ] `convergence-checklist.md`
 - [ ] `model-equation-audit-checklist.md` (or root `model-equation-audit-checklist.md` if that layout is used)
+- [ ] `compare-closed-loop-checklist.md` (if QoI/figure comparison claimed)
 - [ ] `replicate-before-optimize-checklist.md` (if optimize shipped)
 - [ ] `academic-prose-checklist.md` (if narrative shipped)
 
