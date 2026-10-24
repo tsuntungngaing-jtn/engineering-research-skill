@@ -37,6 +37,14 @@ Repository URL will be:
 3. Public → Create repository
 4. Upload folder contents (drag & drop) or upload `engineering-research-skill.zip`
 
+## Also install academic-scrub (language gate)
+
+```powershell
+git clone https://github.com/tsuntungngaing-jtn/academic-scrub.git $env:USERPROFILE\.cursor\skills\academic-scrub
+```
+
+Required for `academic-prose-gate`. See `NOTICE.md`.
+
 ## Install as Cursor skills (after clone)
 
 ```powershell

@@ -13,8 +13,11 @@ description: >-
 
 Transform a reference paper into a **traceable simulation specification**. Output is a parameter table with citations—not a model.
 
+Prefer consolidating an existing **`evidence/EVIDENCE_LEDGER.md`** (from `deep-search`) and the logged **`decisions/DECISION_LOG.md`** choice. Cold extraction from PDF remains allowed only when Phase 0 was waived in writing.
+
 ## When to Use
 
+- After `decision-gate` selection (preferred Transformer path)
 - User provides a PDF, DOI, or paper name for replication
 - Before writing `Build*.java`, MATLAB, or SolidWorks macros
 - When simulation results disagree with paper and parameters must be re-audited
@@ -31,13 +34,15 @@ Do not proceed to CAD/COMSOL until confirmed or explicitly waived by the user.
 
 ### 1. Source hierarchy (use in order)
 
+0. **`EVIDENCE_LEDGER.md` rows** selected by `DECISION_LOG` (keep `claim_id` / `origin`)
 1. Paper **tables** (dimensions, operating conditions)
 2. Paper **figure captions** (topology, flow direction)
 3. Paper **methods / CFD setup** section (BCs, mesh, solver)
 4. Supplementary material
-5. **[INFERRED]** — only with explicit label and reasoning
+5. Official manuals already cited in the ledger (`manual_official`)
+6. **[INFERRED]** — only with explicit label and reasoning
 
-Never copy numbers from memory. Read project PDF text (e.g. `paper_text.txt`) or fetch the paper.
+Never copy numbers from memory. Read project PDF text (e.g. `paper_text.txt`) or fetch the paper. Do not silently upgrade `digitized_estimate` to `reported`.
 
 ### 2. Required extraction categories
 
@@ -94,7 +99,8 @@ Produce `PAPER_SPEC.md` (or inline table):
 Pass confirmed `PAPER_SPEC.md` to:
 
 - `geometry-reconstruction` — build CAD/COMSOL
-- `workflows/paper-to-simulation.md` — full pipeline
+- `workflows/transformer-pipeline.md` / `workflows/paper-to-simulation.md` — full pipeline
+- After solve/validation → `replicate/REPLICATE_SCORECARD.md` before any `parameter-optimize`
 
 ## Reference Prompt
 

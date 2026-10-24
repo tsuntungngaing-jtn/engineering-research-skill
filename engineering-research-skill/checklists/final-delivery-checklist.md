@@ -5,10 +5,16 @@
 ## Documentation
 
 - [ ] `README.md` / `README_使用说明.md` in project folder
+- [ ] `evidence/EVIDENCE_LEDGER.md` (or Phase-0 waiver on file)
+- [ ] `decisions/DECISION_LOG.md` (or Phase-0 waiver on file)
 - [ ] `PAPER_SPEC.md` archived
+- [ ] `model_equation_audit.md` complete (sections 1–13, A/B/C/D grades) when equation audit is in scope
 - [ ] `VALIDATION_REPORT.md` complete
+- [ ] `replicate/REPLICATE_SCORECARD.md` if replication claimed
+- [ ] `optimize/OPTIMIZE_RUN_LOG.md` if any `OPTIMIZED_` file shipped
+- [ ] `prose_scrub/SCRUB_LOG.md` if narrative README/reports shipped (`academic-prose-gate` + `academic-prose-checklist.md`)
 - [ ] Superseded mph files listed with reason
-- [ ] Primary files explicitly named ("use these first")
+- [ ] Primary files explicitly named ("use these first"); `REPLICATE_` vs `OPTIMIZED_` distinguished
 
 ## Source & Reproducibility
 
@@ -33,10 +39,14 @@
 
 ## Checklists Completed
 
+- [ ] `deep-search-checklist.md` (or Phase-0 waiver)
 - [ ] `geometry-checklist.md`
 - [ ] `physics-checklist.md`
 - [ ] `mesh-checklist.md`
 - [ ] `convergence-checklist.md`
+- [ ] `model-equation-audit-checklist.md` (or root `model-equation-audit-checklist.md` if that layout is used)
+- [ ] `replicate-before-optimize-checklist.md` (if optimize shipped)
+- [ ] `academic-prose-checklist.md` (if narrative shipped)
 
 ## Validation Status
 
@@ -67,7 +77,9 @@ Required derived quantities (as applicable):
 - [ ] 300 dpi or vector export
 - [ ] Colorbar ranges documented
 - [ ] Captions use `figure-caption-template.md`
+- [ ] Captions passed `academic-prose-gate` (no process / defensive essays)
 - [ ] Fluid-only velocity plots verified
+- [ ] Pixel-based claims labeled `digitized_estimate` (never as paper-reported)
 
 ## Human Sign-Off
 

@@ -2,13 +2,24 @@
 
 **End-to-end map from reference publication to archived deliverable.**
 
+For the full **Encoder → Decision → Replicate → Optimize → Prose** map, prefer
+[`transformer-pipeline.md`](transformer-pipeline.md). This file details CAD/solve
+phases inside **Decoder · Replicate** (and optional Optimize after scorecard).
+
 ## Pipeline
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
+│ PHASE 0: ENCODER + DECISION (Transformer)                        │
+├──────────────────────────────────────────────────────────────────┤
+│ deep-search → evidence/EVIDENCE_LEDGER.md                        │
+│ decision-gate → OPTION_CARD / DECISION_LOG (or written waiver)   │
+└──────────────────────────────────────────────────────────────────┘
+                              ↓
+┌──────────────────────────────────────────────────────────────────┐
 │ PHASE A: KNOWLEDGE                                               │
 ├──────────────────────────────────────────────────────────────────┤
-│ PDF → text extract (PdfPig / manual)                             │
+│ Prefer ledger rows over cold PDF skim                            │
 │ paper-analysis skill → PAPER_SPEC.md                             │
 │ Human gate: confirm parameters                                   │
 └──────────────────────────────────────────────────────────────────┘
@@ -42,8 +53,22 @@
 │ PHASE E: VERIFY & COMMUNICATE                                    │
 ├──────────────────────────────────────────────────────────────────┤
 │ verification-workflow.md → VALIDATION_REPORT.md                  │
+│ replicate/REPLICATE_SCORECARD.md                                 │
 │ scientific-figure skill → exports + captions                     │
-│ delivery skill → VERIFIED_USE_THESE archive                      │
+│ academic-prose-gate (academic-scrub) on narrative artifacts      │
+└──────────────────────────────────────────────────────────────────┘
+                              ↓ (only if replicate-before-optimize)
+┌──────────────────────────────────────────────────────────────────┐
+│ PHASE F: OPTIMIZE (optional)                                     │
+├──────────────────────────────────────────────────────────────────┤
+│ parameter-optimize → optimize/OPTIMIZE_RUN_LOG.md                │
+│ Numeric and/or pixel compare; no EXACT promotion from pixels     │
+└──────────────────────────────────────────────────────────────────┘
+                              ↓
+┌──────────────────────────────────────────────────────────────────┐
+│ PHASE G: DELIVERY                                                │
+├──────────────────────────────────────────────────────────────────┤
+│ delivery skill → VERIFIED_USE_THESE (REPLICATE_* / OPTIMIZED_*)  │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -84,13 +109,16 @@ First solve on new geometry?
 
 | Phase | Primary artifact | Traceable to |
 |-------|------------------|--------------|
-| A | PAPER_SPEC.md | Paper table/fig |
+| 0 | EVIDENCE_LEDGER.md / DECISION_LOG.md | Paper + official docs / user |
+| A | PAPER_SPEC.md | Ledger claim_ids + paper table/fig |
 | B | Build*.java | PAPER_SPEC |
 | B | STEP | COMSOL geom export or SW |
 | C | COMSOL_READY.mph | Builder + checklists |
 | D | *_FLOW_SOLVED.mph | batch log |
-| E | VALIDATION_REPORT.md | Metrics + paper |
+| E | VALIDATION_REPORT.md / REPLICATE_SCORECARD.md | Metrics + paper |
 | E | Figures | mph dataset + caption template |
+| F | OPTIMIZE_RUN_LOG.md | Baseline scorecard + ledger |
+| G | VERIFIED_USE_THESE | Delivery checklist + prose scrub log |
 
 ## Parallel Tracks (common in practice)
 
@@ -104,11 +132,12 @@ First solve on new geometry?
 ## AI Session Starter
 
 ```text
-1. Read paper-analysis skill
-2. Load PDF or paper_text.txt
-3. Produce PAPER_SPEC.md — STOP for human
-4. After approval, read geometry-reconstruction + simulation-workflow
-5. Never skip to "results" without solve log
+1. Read workflows/transformer-pipeline.md
+2. deep-search → EVIDENCE_LEDGER — then decision-gate (or waiver)
+3. paper-analysis from ledger → PAPER_SPEC.md — STOP for human
+4. After approval: geometry-reconstruction + simulation-workflow
+5. validation → REPLICATE_SCORECARD; only then parameter-optimize if requested
+6. academic-prose-gate before delivery; never skip solve logs
 ```
 
 ## Success Definition
@@ -119,6 +148,9 @@ A paper-to-simulation project is **complete** only when:
 2. Validation status explicitly stated (not implied)
 3. Human sign-off recorded or waived in writing
 4. `VERIFIED_USE_THESE/` contains only current best mph with README
+5. Ledger + decision log present (or explicit waiver)
+6. Narrative README/reports passed `academic-prose-gate` when prose is shipped
+7. If optimized variants shipped: replicate-before-optimize checklist passed
 
 ## Philosophy Reminder
 

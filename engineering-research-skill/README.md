@@ -10,20 +10,37 @@ This repository packages a reproducible research pipeline for microfluidic therm
 
 The agent must never claim convergence, validation, or publication readiness without evidence. Simulation success requires logs, mesh metrics, and physics sanity checks—not colorful plots alone.
 
-## End-to-End Workflow
+**Overall research stance:** **replicate first, then optimize** on a locked baseline.
+
+## Transformer pipeline (metaphor)
+
+No ML Transformer is trained. Stages mirror Encoder → Decision → Decoder:
 
 ```
-Reference Paper
-  → Extract geometry & physics (paper-analysis)
-  → Equation & coordinate audit (simulation-equation-audit) — ongoing
-  → AI-assisted CAD / COMSOL geometry (geometry-reconstruction)
-  → COMSOL simulation setup & solve
-  → Debug (comsol-debug)
-  → Re-audit after solve (simulation-equation-audit)
-  → Physics validation (validation)
-  → Scientific figures (scientific-figure)
-  → Final delivery (delivery)
+Input
+  → Encoder: deep-search → EVIDENCE_LEDGER (literature + official docs)
+  → Decision: decision-gate → OPTION_CARD / user choice / accountable self-iterate
+  → Decoder · Replicate: paper-analysis → geometry → solve → validation → REPLICATE_SCORECARD
+  → Decoder · Optimize: parameter-optimize (numeric and/or pixel compare)
+  → Prose gate: academic-prose-gate (fused academic-scrub)
+  → Delivery: VERIFIED_USE_THESE (REPLICATE_* vs OPTIMIZED_*)
 ```
+
+Full map: [`workflows/transformer-pipeline.md`](workflows/transformer-pipeline.md).  
+Legacy detailed CAD/solve map: [`workflows/paper-to-simulation.md`](workflows/paper-to-simulation.md).
+
+## Language / journal prose
+
+Process contamination and AIGC defensive tone in reports, captions, and README are handled by **`academic-prose-gate`**, which **requires** the upstream skill:
+
+**https://github.com/tsuntungngaing-jtn/academic-scrub**
+
+```powershell
+git clone https://github.com/tsuntungngaing-jtn/academic-scrub.git $env:USERPROFILE\.cursor\skills\academic-scrub
+```
+
+Do not close delivery without a prose scrub pass when narrative artifacts are shipped.
+See `checklists/academic-prose-checklist.md` and `NOTICE.md`.
 
 ## Repository Layout
 
@@ -33,7 +50,7 @@ Reference Paper
 | `workflows/` | Stage-gate process documents |
 | `checklists/` | Pre-flight and sign-off checklists |
 | `prompts/` | Reusable prompt templates for agent sessions |
-| `templates/` | Reports, logs, figure captions |
+| `templates/` | Reports, logs, ledgers, figure captions |
 
 ## Installation (Cursor)
 
@@ -43,11 +60,7 @@ Reference Paper
 cp -r skills/* your-project/.cursor/skills/
 ```
 
-Or symlink individual skills:
-
-```text
-your-project/.cursor/skills/paper-analysis/   →  engineering-research-skill/skills/paper-analysis/
-```
+Also install `academic-scrub` (see above).
 
 ### Option B — Personal skill (all projects)
 
@@ -60,31 +73,41 @@ cp -r skills/* ~/.cursor/skills/
 Point the agent at this repo in a Cursor rule:
 
 ```text
-For COMSOL/microfluidic simulation tasks, follow engineering-research-skill/workflows/simulation-workflow.md
+For COMSOL/microfluidic simulation tasks, follow engineering-research-skill/workflows/transformer-pipeline.md
 ```
 
 ## Skill Index
 
-| Skill | Trigger |
-|-------|---------|
-| `paper-analysis` | New reference paper, parameter extraction, BC/material audit |
-| `geometry-reconstruction` | CAD/COMSOL geometry from paper dimensions |
-| `comsol-debug` | Solver failure, green velocity fields, mesh warnings |
-| `simulation-equation-audit` | Equation/coordinate/unit audit, math↔software mapping, A/B/C/D output reliability (any toolchain) |
-| `validation` | Physics sanity, Re/Pe checks, comparison to paper |
-| `scientific-figure` | Nature/IEEE-style multi-panel figures |
-| `delivery` | Final package, VERIFIED_USE_THESE archive |
+| Skill | Stage | Trigger |
+|-------|-------|---------|
+| `deep-search` | Encoder | Start project; build accountable evidence ledger |
+| `decision-gate` | Decision | Option cards; user select / refuse → self-iterate |
+| `paper-analysis` | Decoder · Replicate | Consolidate ledger → `PAPER_SPEC.md` |
+| `geometry-reconstruction` | Decoder · Replicate | CAD/COMSOL geometry from confirmed spec |
+| `comsol-debug` | Decoder · Replicate | Solver / green-field / mesh failures |
+| `simulation-equation-audit` | Decoder · Replicate | Equation / coordinate / A–D reliability |
+| `validation` | Decoder · Replicate | Physics + paper comparison status |
+| `parameter-optimize` | Decoder · Optimize | After replicate scorecard; numeric/pixel search |
+| `scientific-figure` | Communicate | Nature/IEEE-style figures |
+| `academic-prose-gate` | Prose | Fuse academic-scrub on deliverable text (`academic-prose-checklist`) |
+| `delivery` | Archive | `VERIFIED_USE_THESE`, full package |
 
 ## Mandatory Pre-Solve Gates
 
 Before any COMSOL study run, the agent must complete:
 
-0. **Equation audit** — `model_equation_audit.md` with research question, equations, coordinates, and math↔software mapping (`simulation-equation-audit`)
+0. **Evidence + decision** — ledger ready; decision logged (or written waiver)
+0b. **Equation audit** — `model_equation_audit.md` (`simulation-equation-audit`)
 1. **Units** — mm vs m consistency (STEP import scale is a common failure mode)
 2. **Domain assignment** — fluid vs solid explicitly separated
-3. **Boundary conditions** — traceable to paper section/table
+3. **Boundary conditions** — traceable to paper section/table (ledger `claim_id`)
 4. **Mesh scale** — resolves channel height and thermal boundary layer order-of-magnitude
 5. **Reynolds number** — laminar/turbulent assumption stated and justified
+
+## Mandatory Pre-Optimize Gates
+
+- `checklists/replicate-before-optimize-checklist.md`
+- Digitized figure samples remain `digitized_estimate`
 
 ## Prohibited Behaviors
 
@@ -93,6 +116,10 @@ Before any COMSOL study run, the agent must complete:
 - Reporting temperatures below inlet or above physically plausible limits without explanation
 - Skipping uncertainty and assumption disclosure in deliverables
 - Marking outputs **A** (quantitative) without `model_equation_audit.md` and reliability grades
+- Silent defaults on high-impact underspec when user refuses or is AFK
+- Optimizing before a replicate scorecard
+- Promoting pixel matches to paper-reported `VALIDATED`
+- Shipping narrative README/reports without `academic-prose-gate` when prose is in scope
 
 ## Toolchain
 
@@ -103,14 +130,18 @@ Before any COMSOL study run, the agent must complete:
 | MATLAB LiveLink | STEP import, `mphgeominfo`, graft scripts |
 | PdfPig / PDF text | Paper parameter extraction |
 | Cursor / Codex | Workflow orchestration, code generation under human review |
+| academic-scrub | Journal-language / process-contamination scrub |
+
+Optional runtime automation: sibling project **comsol-automatic** (MCP). Epistemic policy C (digitized ≠ reported) aligns with `decision-gate` / `parameter-optimize`.
 
 ## Related Artifacts
 
-If you maintain a project archive (e.g. `hangyezhang_sop/建模/00_统一归档_论文_模型_仿真/`), align folder naming with `templates/simulation-log-template.md` and `checklists/final-delivery-checklist.md`.
+If you maintain a project archive (e.g. `hangyezhang_sop/建模/00_统一归档_论文_模型_仿真/`), align folder naming with `templates/simulation-log-template.md`, `skills/delivery/SKILL.md`, and `checklists/final-delivery-checklist.md`.
 
 ## License
 
-MIT — use in academic and industrial research; cite assumptions and validate physics independently.
+MIT — use in academic and industrial research; cite assumptions and validate physics independently.  
+`academic-scrub` remains a separate repository with its own license/terms.
 
 ## Maintainer
 
