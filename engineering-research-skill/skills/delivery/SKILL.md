@@ -2,9 +2,10 @@
 name: delivery
 description: >-
   Package final engineering simulation deliverables: VERIFIED mph files, logs,
-  builder scripts, STEP geometry, validation report, and README for archive
-  folders. Use when closing a study or handing off to advisor/collaborator.
-  Requires explicit validation status—never mark VERIFIED without logs.
+  builder scripts, STEP geometry, validation report, session/compare storage, and
+  README for archive folders. Use when closing a study or handing off to
+  advisor/collaborator. Requires explicit validation status—never mark VERIFIED
+  without logs.
 ---
 
 # Delivery Skill
@@ -15,28 +16,42 @@ Produce a **reproducible, auditable** delivery package suitable for lab archive,
 
 ## Folder Structure (standard)
 
+Canonical map: `templates/PROJECT_LAYOUT.md`. Init: `scripts/init-project-storage.ps1` / `.sh`.  
+Workflow: `workflows/project-storage.md`.
+
 ```text
 <PROJECT_ID>/
+├── session/              # SESSION_CONFIG + SESSION_LOG (boot policy)
+├── references/           # PDFs + LITERATURE_MANIFEST
+│   └── pdfs/
 ├── evidence/             # EVIDENCE_LEDGER + excerpts
 ├── decisions/            # OPTION_CARD + DECISION_LOG
+├── compare/              # COMPARE_LOG + optional vision/
 ├── replicate/            # REPLICATE_SCORECARD + baseline notes
-├── optimize/             # OPTIMIZE_RUN_LOG + child runs (optional)
+├── optimize/             # OPTIMIZE_RUN_LOG + baseline/ copies
 ├── prose_scrub/          # SCRUB_LOG + backups from academic-prose-gate
-├── references/           # PDF, DOI link
-├── figures/              # SVG schematics, exported PNG/PDF
-├── cad_solidworks_step/  # .STEP, .SLDPRT
-├── comsol_models/        # .mph, .status, stdout
-├── builders_logs/        # .java, .m, build/solve logs
+├── figures/
+├── cad_solidworks_step/
+├── comsol_models/        # working .mph, .status, stdout
+├── builders_logs/
 ├── VERIFIED_USE_THESE/   # human-approved finals only
 │   ├── REPLICATE_*.mph
-│   └── OPTIMIZED_*.mph   # only after replicate-before-optimize
+│   └── OPTIMIZED_*.mph
+├── PROJECT_LAYOUT.md     # optional local copy of the map
 ├── PAPER_SPEC.md
 ├── model_equation_audit.md
-├── model_run_log.md              # if numerical runs
-├── model_output_reliability.md   # optional, many outputs
+├── model_run_log.md
+├── model_output_reliability.md
 ├── VALIDATION_REPORT.md
-└── README_使用说明.md or README.md
+└── README.md             # English archive (lang_ui CHN does not change this)
 ```
+
+## Storage rules
+
+1. Skill repository ≠ project store. Keep mph/STEP/PDF out of the skill git tree.
+2. `session/` and `compare/` are first-class deliverables when boot/compare were used.
+3. Never overwrite an open/locked mph; stage a new name under `comsol_models/` then promote copies to `VERIFIED_USE_THESE/`.
+4. Literature downloads record rows in `references/LITERATURE_MANIFEST.md` (`OA_ONLY_MANIFEST` / `USER_SUPPLIED_PATH` / `LINK_ONLY`).
 
 ## File Naming Convention
 
@@ -55,8 +70,6 @@ Suffixes:
   CONTROL | BLOCKED | PATCH_<date>
 ```
 
-Prefer **new file** over overwriting locked/open COMSOL sessions.
-
 ## README Minimum Content
 
 1. **Purpose** — which paper figure / claim
@@ -66,12 +79,15 @@ Prefer **new file** over overwriting locked/open COMSOL sessions.
 5. **Validation status** — per study from validation skill
 6. **How to reproduce** — Java compile line or batch command
 7. **Known limitations** — mesh, split flow/heat, topology delta
+8. **Session keys** — `lang_ui`, `intake`, `path_policy` (from `SESSION_CONFIG`)
 
 ## Required Deliverable Table
 
 | Artifact | Required | Evidence |
 |----------|----------|----------|
+| SESSION_CONFIG (+ LOG) | Yes if boot used (default yes) | `session/` |
 | EVIDENCE_LEDGER + DECISION_LOG | Yes (or written Phase-0 waiver) | `evidence/` `decisions/` |
+| COMPARE_LOG | Yes if QoI/figure claims shipped | `compare/` |
 | Builder source | Yes | `.java` / `.m` in `builders_logs/` |
 | READY mph | Yes | Opens, geom builds |
 | SOLVED mph | If claimed | Batch log `Done`, LASTEXITCODE=0 |
@@ -83,6 +99,7 @@ Prefer **new file** over overwriting locked/open COMSOL sessions.
 | OPTIMIZE_RUN_LOG | If OPTIMIZED_ shipped | `optimize/` + checklist |
 | Figure exports | If publication | 300 dpi + caption; no **D** sources without waiver |
 | prose scrub log | If narrative README/report shipped | `prose_scrub/SCRUB_LOG.md` via academic-prose-gate |
+| LITERATURE_MANIFEST | If PDFs were fetched/supplied | `references/` |
 
 ## Result Report Sections
 
@@ -108,6 +125,8 @@ Every solve session → `templates/simulation-log-template.md` entry in `builder
 - `VERIFIED_USE_THESE` containing files with known open lock issues without README warning
 - Placing `OPTIMIZED_` mph without replicate-before-optimize checklist
 - Shipping assignment/chat/process-contaminated README without academic-prose-gate
+- Declaring EXACT VALIDATED from pixel/vision (`C4`) alone
+- Omitting `session/` or `compare/` when those stages were used
 
 ## Prose gate (required when shipping narrative)
 
@@ -120,9 +139,12 @@ Run `skills/academic-prose-gate` (upstream [academic-scrub](https://github.com/t
 
 **Status:** FLOW_VALIDATED + THERMAL_VALIDATED (not PAPER_COMPARABLE)
 
+**Session:** intake=… path_policy=… (see session/SESSION_CONFIG.md)
+
 **Primary files:**
 - `VERIFIED_USE_THESE/<name>_CHT_SOLVED.mph`
 - `builders_logs/Build<>.java`
+- `compare/COMPARE_LOG.md`
 
 **Reproduce:**
 `comsolbatch -inputfile ... -study std_flow`
@@ -134,12 +156,13 @@ Run `skills/academic-prose-gate` (upstream [academic-scrub](https://github.com/t
 
 ## Related
 
-- `skills/simulation-equation-audit/SKILL.md` (or root audit templates if that layout is used)
+- `templates/PROJECT_LAYOUT.md`
+- `workflows/project-storage.md`
+- `skills/simulation-equation-audit/SKILL.md`
 - `skills/academic-prose-gate/SKILL.md`
 - `skills/parameter-optimize/SKILL.md`
 - `workflows/transformer-pipeline.md`
 - `checklists/final-delivery-checklist.md`
 - `checklists/replicate-before-optimize-checklist.md`
 - `checklists/academic-prose-checklist.md`
-- `checklists/model-equation-audit-checklist.md`
 - `templates/result-report-template.md`

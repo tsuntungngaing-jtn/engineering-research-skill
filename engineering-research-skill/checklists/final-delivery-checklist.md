@@ -4,15 +4,19 @@
 
 ## Documentation
 
-- [ ] `README.md` / `README_使用说明.md` in project folder
+- [ ] `README.md` in project folder (English archive; L3)
+- [ ] `session/SESSION_CONFIG.md` + `SESSION_LOG.md` (or written boot waiver)
 - [ ] `evidence/EVIDENCE_LEDGER.md` (or Phase-0 waiver on file)
 - [ ] `decisions/DECISION_LOG.md` (or Phase-0 waiver on file)
+- [ ] `compare/COMPARE_LOG.md` if QoI or figure claims are shipped
+- [ ] `references/LITERATURE_MANIFEST.md` if PDFs were fetched or supplied
 - [ ] `PAPER_SPEC.md` archived
 - [ ] `model_equation_audit.md` complete (sections 1–13, A/B/C/D grades) when equation audit is in scope
 - [ ] `VALIDATION_REPORT.md` complete
 - [ ] `replicate/REPLICATE_SCORECARD.md` if replication claimed
 - [ ] `optimize/OPTIMIZE_RUN_LOG.md` if any `OPTIMIZED_` file shipped
 - [ ] `prose_scrub/SCRUB_LOG.md` if narrative README/reports shipped (`academic-prose-gate` + `academic-prose-checklist.md`)
+- [ ] Storage layout matches `templates/PROJECT_LAYOUT.md` / `workflows/project-storage.md`
 - [ ] Superseded mph files listed with reason
 - [ ] Primary files explicitly named ("use these first"); `REPLICATE_` vs `OPTIMIZED_` distinguished
 

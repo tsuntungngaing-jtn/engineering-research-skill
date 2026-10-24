@@ -42,6 +42,16 @@ git clone https://github.com/tsuntungngaing-jtn/academic-scrub.git $env:USERPROF
 Do not close delivery without a prose scrub pass when narrative artifacts are shipped.
 See `checklists/academic-prose-checklist.md` and `NOTICE.md`.
 
+## Project storage (runtime)
+
+Simulation outputs live in a **project folder**, not in this skill git tree. Canonical layout: [`templates/PROJECT_LAYOUT.md`](templates/PROJECT_LAYOUT.md). Init:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/init-project-storage.ps1 -ProjectRoot "D:\work\<PROJECT_ID>"
+```
+
+Details: [`workflows/project-storage.md`](workflows/project-storage.md). Includes `session/`, `compare/`, `evidence/`, `decisions/`, `replicate/`, `optimize/`, `VERIFIED_USE_THESE/`.
+
 ## Repository Layout
 
 | Path | Purpose |
@@ -50,7 +60,8 @@ See `checklists/academic-prose-checklist.md` and `NOTICE.md`.
 | `workflows/` | Stage-gate process documents |
 | `checklists/` | Pre-flight and sign-off checklists |
 | `prompts/` | Reusable prompt templates for agent sessions |
-| `templates/` | Reports, logs, ledgers, figure captions |
+| `templates/` | Reports, logs, ledgers, session/compare storage seeds |
+| `scripts/` | `init-project-storage` helpers |
 
 ## Installation (Cursor)
 
