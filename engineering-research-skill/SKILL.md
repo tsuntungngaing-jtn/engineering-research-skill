@@ -1,123 +1,63 @@
 ---
-name: validation
+name: engineering-research-skill
 description: >-
-  Physics validation for COMSOL microfluidic thermal simulations: Reynolds and
-  Peclet checks, energy balance, comparison to reference paper, mesh sanity,
-  and explicit validation status reporting. Use after solve and before delivery.
-  Human must sign off on VALIDATED or NOT VALIDATED status.
+  End-to-end engineering research pipeline for paper→evidence→decision→COMSOL
+  simulation→validation→compare→prose gate→delivery, including optional
+  manuscript export (Markdown → LaTeX typesetting → Word/PDF). Use for blind
+  paper replication, accountable FEA, and case-study archive packaging.
+license: MIT
+metadata:
+  display_name: Engineering Research Skill
+  based_on: tsuntungngaing-jtn/engineering-research-skill
 ---
 
-# Validation Skill
+# Engineering Research Skill
 
-## Role
-
-Determine whether simulation results are **physically credible** and **comparable** to the reference paper—not merely whether the solver finished.
-
-**Prerequisite:** Complete `simulation-equation-audit` (`model_equation_audit.md`) with output reliability grades. Do not assign `PAPER_COMPARABLE` if primary metrics are graded **C** or **D**.
-
-## Validation Status Labels
-
-Use exactly one per study:
-
-| Status | Meaning |
-|--------|---------|
-| `GEOMETRY_VALIDATED` | Build matches spec; connectivity checked |
-| `FLOW_VALIDATED` | Inlet/outlet mass balance; Re regime; no stagnant false fluid |
-| `THERMAL_VALIDATED` | Energy sensible; T field plausible; heat path correct |
-| `PAPER_COMPARABLE` | Quantitative metrics within stated tolerance vs paper |
-| `NOT_VALIDATED` | Missing data, failed checks, or qualitative only |
-| `FAILED` | Solver or physics check failed |
-
-**Never** use `VALIDATED` without listing which checks passed.
-
-## Mandatory Physics Checks
-
-### 1. Dimensionless numbers
-
-Compute and report:
+Transformer-style pipeline (see `README.md`, `workflows/transformer-pipeline.md`):
 
 ```text
-Re = ρ u L / μ        (channel or hydraulic diameter)
-Pe = ρ cp u L / k     (if thermal advection matters)
+session-boot → deep-search → decision-gate → paper-analysis
+  → geometry / solve / comsol-debug → validation + compare
+  → academic-prose-gate → delivery → manuscript-export (optional)
 ```
 
-State laminar/turbulent assumption vs Re.
+## Skill index
 
-### 2. Mass balance
+| Skill | Role |
+|-------|------|
+| `session-boot` | Language / intake / path policy |
+| `deep-search` | EVIDENCE_LEDGER (Encoder) |
+| `decision-gate` | OPTION_CARD / DECISION_LOG |
+| `paper-analysis` | PAPER_SPEC |
+| `geometry-reconstruction` | Geometry from ledger |
+| `comsol-debug` | Solve / repair |
+| `validation` | Physics + paper compare status |
+| `scientific-figure` | Figure export |
+| `parameter-optimize` | Only after replicate |
+| `academic-prose-gate` | Scrub narrative |
+| `delivery` | Archive package (MD-first) |
+| **`manuscript-export`** | **MD → LaTeX → PDF + Word (.docx)** |
 
-```text
-|ṁ_in − ṁ_out| / ṁ_in < 1%  (steady, incompressible)
-```
+## Manuscript / Word policy
 
-If unmet → BC or domain leak; not a plotting issue.
+- Default working and archive prose remain **Markdown** (ledger, decisions, validation).
+- When the user needs a **Word manuscript**, run `skills/manuscript-export`:
+  1. Pandoc Markdown → **LaTeX** (`ctexart` / XeLaTeX for Chinese)
+  2. Compile **PDF** (proves LaTeX typesetting)
+  3. Export **Word `.docx`** from the LaTeX stage (or Pandoc DOCX with the same media)
+- Do **not** silently invent a `.docx` without the LaTeX intermediate when the user asked for “经 LaTeX 排版的 Word”.
+- Do **not** change scientific conclusions / QoI tables during export.
 
-### 3. Energy balance (CHT)
+## Hard rules (unchanged)
 
-```text
-Q_flux ≈ ṁ cp (T_out − T_in) + losses
-```
+- No silent parameter fill; origin/certainty stay distinct.
+- Solver done ≠ scientific VALIDATED.
+- Pixel/figure compare alone ≠ EXACT VALIDATED.
+- Optimize only after replicate scorecard.
 
-Document if adiabatic external walls assumed.
+## Related
 
-### 4. Temperature sanity
-
-- T ≥ T_in on fluid path (except expansion work negligible cases—justify)
-- T_max location consistent with heat input face
-- No unphysical spikes at reentrant corners without mesh refinement note
-
-### 5. Pressure
-
-- ΔP > 0 for flow from inlet to outlet
-- Order-of-magnitude vs paper (factor 2–5 may be mesh/BC; factor 100+ → investigate)
-
-## Comparison to Paper
-
-| Metric | Paper value | Simulation | Δ% | Acceptable? |
-|--------|-------------|------------|-----|-------------|
-| ΔP | | | | |
-| T_max or T_avg | | | | |
-| Nu or h | | | | |
-
-Tolerance must be stated (e.g. "topology replication only, ±30% expected").
-
-## Mesh Validation
-
-Minimum for publication path:
-
-- Report element count, min quality, max growth rate
-- One refinement step: ΔP or T_max change < X% (user-defined, typically 5–10%)
-
-For exploratory replication, document **"mesh-independent study not performed"**.
-
-## Evidence Package
-
-Include in validation report:
-
-1. Solver log excerpt (final residual or "Done")
-2. `.mph.status` or batch stdout with `LASTEXITCODE=0`
-3. Derived quantities table (not screenshots alone)
-4. Assumptions and known deviations from paper
-
-## Human Sign-Off Block
-
-```markdown
-## Human Physics Sign-Off
-- [ ] I reviewed domain assignments and BCs
-- [ ] I accept validation status: ___________
-- Reviewer: ___________  Date: ___________
-```
-
-## Downstream
-
-- `skills/simulation-equation-audit/SKILL.md`
-- `verification-workflow.md`
-- `checklists/physics-checklist.md`
-- `checklists/model-equation-audit-checklist.md`
-- `prompts/validation-prompt.md`
-- `prompts/reviewer-mode-prompt.md`
-
-## Prohibited
-
-- "Matches paper well" without numbers
-- Cherry-picking best-case flow rate
-- Hiding solver warnings that affect temperature DOFs
+- `skills/delivery/SKILL.md`
+- `skills/manuscript-export/SKILL.md`
+- `scripts/export_manuscript.ps1`
+- Upstream execution: [comsol-automatic](https://github.com/tsuntungngaing-jtn/comsol-automatic)

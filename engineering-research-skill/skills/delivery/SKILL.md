@@ -100,6 +100,7 @@ Suffixes:
 | Figure exports | If publication | 300 dpi + caption; no **D** sources without waiver |
 | prose scrub log | If narrative README/report shipped | `prose_scrub/SCRUB_LOG.md` via academic-prose-gate |
 | LITERATURE_MANIFEST | If PDFs were fetched/supplied | `references/` |
+| Manuscript Word/PDF | If user requested Word / LaTeX排版 | `skills/manuscript-export` → `.tex` + `.pdf` + `.docx` + `EXPORT_LOG.md` |
 
 ## Result Report Sections
 
@@ -131,6 +132,16 @@ Every solve session → `templates/simulation-log-template.md` entry in `builder
 ## Prose gate (required when shipping narrative)
 
 Run `skills/academic-prose-gate` (upstream [academic-scrub](https://github.com/tsuntungngaing-jtn/academic-scrub)) on README, validation/optimize narratives, and figure captions before close-out. Tick `checklists/academic-prose-checklist.md`.
+
+## Manuscript Word (optional; when requested)
+
+Default archive prose is Markdown. If the user needs a **Word** manuscript **after LaTeX typesetting**, run `skills/manuscript-export` (`scripts/export_manuscript.ps1`):
+
+1. Pandoc MD → LaTeX (`ctexart` + XeLaTeX for Chinese)
+2. XeLaTeX → PDF
+3. Pandoc → `.docx`
+
+Do not claim “经 LaTeX 排版的 Word” unless `.tex` and successful `.pdf` exist beside the `.docx`.
 
 ## Handoff Message Template
 

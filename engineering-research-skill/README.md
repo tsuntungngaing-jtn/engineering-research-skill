@@ -110,6 +110,7 @@ For COMSOL/microfluidic simulation tasks, follow engineering-research-skill/work
 | `scientific-figure` | Communicate | Nature/IEEE-style figures |
 | `academic-prose-gate` | Prose | Fuse academic-scrub on deliverable text (`academic-prose-checklist`) |
 | `delivery` | Archive | `VERIFIED_USE_THESE`, full package |
+| `manuscript-export` | Derived manuscript | MD → LaTeX → PDF + Word (`.docx`) via `scripts/export_manuscript.ps1` |
 
 ## Mandatory Pre-Solve Gates
 

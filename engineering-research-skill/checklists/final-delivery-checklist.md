@@ -16,6 +16,7 @@
 - [ ] `replicate/REPLICATE_SCORECARD.md` if replication claimed
 - [ ] `optimize/OPTIMIZE_RUN_LOG.md` if any `OPTIMIZED_` file shipped
 - [ ] `prose_scrub/SCRUB_LOG.md` if narrative README/reports shipped (`academic-prose-gate` + `academic-prose-checklist.md`)
+- [ ] If Word/LaTeX manuscript requested: `manuscript-export` outputs `.tex` + `.pdf` + `.docx` + `EXPORT_LOG.md` (`skills/manuscript-export/SKILL.md`)
 - [ ] Storage layout matches `templates/PROJECT_LAYOUT.md` / `workflows/project-storage.md`
 - [ ] Coursework extras (if MFE209TC-like): mesh CSV cited; Pareto/preference-lock labeled **decision** not paper EXACT (`courseware/MFE209TC/README.md`)
 - [ ] Superseded mph files listed with reason
